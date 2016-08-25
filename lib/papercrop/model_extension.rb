@@ -92,6 +92,8 @@ module Papercrop
         @geometry[attachment_name] ||= {}
         
         path = (self.send(attachment_name).options[:storage] == :filesystem) ? self.send(attachment_name).path(style) : self.send(attachment_name).url(style)
+        puts path
+        puts "%%%%%%%%"
         puts Paperclip::Geometry.from_file(path)
         @geometry[attachment_name][style] ||= Paperclip::Geometry.from_file(path)
         puts "$$$$$$$$$$$$$$$$$$$$$"
