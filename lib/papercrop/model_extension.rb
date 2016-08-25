@@ -87,17 +87,11 @@ module Papercrop
       # @param style = :original [Symbol] attachment style
       # @return [Paperclip::Geometry]
       def image_geometry(attachment_name, style = :original)
-        puts "+++++ image_geometry ++++++++"
         @geometry                  ||= {}
         @geometry[attachment_name] ||= {}
         
         path = (self.send(attachment_name).options[:storage] == :filesystem) ? self.send(attachment_name).path(style) : self.send(attachment_name).url(style)
-        puts path
-        puts "%%%%%%%%"
-        puts Paperclip::Geometry.from_file(path)
         @geometry[attachment_name][style] ||= Paperclip::Geometry.from_file(path)
-        puts "$$$$$$$$$$$$$$$$$$$$$"
-        puts @geometry[attachment_name][style]
       end
 
 
