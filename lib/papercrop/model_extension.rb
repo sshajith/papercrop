@@ -91,10 +91,15 @@ module Papercrop
         @geometry[attachment_name] ||= {}
         
         path = (self.send(attachment_name).options[:storage] == :filesystem) ? self.send(attachment_name).path(style) : self.send(attachment_name).url(style)
-        if !self.send(attachment_name).exists? or path == "/assets/no_image.png"
+        begin
+          if path == "/assets/no_image.png"
+            @geometry[attachment_name][style] = Paperclip::Geometry.new(width: 150, height:150)
+          else
+            @geometry[attachment_name][style] ||= Paperclip::Geometry.from_file(path)
+          end
+        rescue
+          path = "/assets/no_image.png"
           @geometry[attachment_name][style] = Paperclip::Geometry.new(width: 150, height:150)
-        else
-          @geometry[attachment_name][style] ||= Paperclip::Geometry.from_file(path)
         end
       end
 
